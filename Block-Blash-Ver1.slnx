@@ -1,14 +1,14 @@
 ﻿<Solution>
   <Project Path="UniRx.csproj" />
+  <Project Path="Core.csproj" />
+  <Project Path="NewAssembly.csproj" />
   <Project Path="Enemy.csproj" />
   <Project Path="Assembly-CSharp.csproj" />
-  <Project Path="UniRx.Examples.csproj" />
-  <Project Path="Core.csproj" />
-  <Project Path="UI.csproj" />
   <Project Path="Player.csproj" />
+  <Project Path="UniRx.Examples.csproj" />
   <Project Path="JoystickPack.csproj" />
+  <Project Path="UI.csproj" />
   <Project Path="Gameplay.csproj" />
-  <Project Path="NewAssembly.csproj" />
   <Project Path="JoystickPack.Editor.csproj" />
   <Project Path="Assembly-CSharp-Editor.csproj" />
 </Solution>
