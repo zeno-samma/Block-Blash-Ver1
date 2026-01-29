@@ -6,7 +6,7 @@ namespace MrX.BlockBlash
 {
     public static class EventBus
     {
-        // test tốc độc asmdef;
+
         // Dùng Dictionary để lưu tất cả các listener cho từng loại Event
         private static Dictionary<Type, Delegate> s_events = new Dictionary<Type, Delegate>();
 

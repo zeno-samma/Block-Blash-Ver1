@@ -10,29 +10,25 @@ namespace MrX.BlockBlash
     public class GameManager : MonoBehaviour
     {
         public static GameManager Ins;
-        // [SerializeField] private int currentScore;
-        // private PlayerData loadedPlayerData;
-        // [SerializeField] private PlayerInfo playerInfo; // Kéo đối tượng Hero trong Scene vào đây
-
-        private string saveFilePath;
-        // private bool isDataDirty = false; // << "CỜ BẨN"
         public GameState CurrentState { get; private set; }
+        //Lắng nghe sự kiện khi mở game
+        // ====================================
         private void OnEnable()
         {
-            EventBus.Subscribe<PlayerSpawnedEvent>(OnPlayerSpawned);
             EventBus.Subscribe<PlayerDiedEvent>(GameOver);
             EventBus.Subscribe<PlayerLeveledUpEvent>(OnPlayerLeveledUp);
             EventBus.Subscribe<UpgradeChosenEvent>(OnUpgradeChosen);
         }
-
+        //Huỷ lắng nghe sự kiện khi game đóng
+        // ====================================
         private void OnDisable()
         {
-            EventBus.Unsubscribe<PlayerSpawnedEvent>(OnPlayerSpawned);
             EventBus.Unsubscribe<PlayerDiedEvent>(GameOver);
             EventBus.Unsubscribe<PlayerLeveledUpEvent>(OnPlayerLeveledUp);
             EventBus.Unsubscribe<UpgradeChosenEvent>(OnUpgradeChosen);
         }
-
+        //Hàm sự kiện
+        // =============================================
         private void OnUpgradeChosen(UpgradeChosenEvent value)
         {
             UpdateGameState(GameState.PLAYING);
@@ -43,26 +39,12 @@ namespace MrX.BlockBlash
 
             Debug.Log("2.Lắng nghe vào UPGRADEPHASE");
             UpdateGameState(GameState.UPGRADEPHASE);
-
         }
-
-        private void OnPlayerSpawned(PlayerSpawnedEvent value)
-        {
-            // Nhận Transform từ sự kiện và lưu lại
-            // this.playerInfo = value.playerObject.GetComponent<PlayerInfo>();
-            // // Debug.Log("GameManager đã nhận được tham chiếu đến PlayerHealth thành công!");
-            // if (playerInfo != null && loadedPlayerData != null)
-            // {
-            //     Debug.Log("Ok");
-            //     this.playerInfo.ApplyLoadedData(loadedPlayerData);
-            // }
-        }
-
+        // =====================================
         void Awake()
         {
             // Ra lệnh cho game chạy ở 60 FPS
             Application.targetFrameRate = 60;
-            saveFilePath = Path.Combine(Application.persistentDataPath, "savedata.json");
             // Singleton Pattern
             if (Ins != null && Ins != this)
             {
@@ -77,14 +59,8 @@ namespace MrX.BlockBlash
                 Ins = this;
                 DontDestroyOnLoad(gameObject); // Giữ GameManager tồn tại giữa các scene
             }
-            // Chỉ đọc dữ liệu từ file và lưu lại, KHÔNG áp dụng cho player
-            LoadDataFromFile();
         }
-        // Hàm công khai để các script khác có thể "báo hiệu" có thay đổi
-        // public void MarkDataAsDirty()
-        // {
-        //     isDataDirty = true;
-        // }
+
         void Start()
         {
             Debug.Log("--- GameManager START CALLED! ---");
@@ -144,70 +120,10 @@ namespace MrX.BlockBlash
             }
 
             // 4. Phát đi "báo cáo" về trạng thái mới cho các hệ thống khác lắng nghe
-            // OnStateChanged?.Invoke(newState);
-            EventBus.Publish(new StateUpdatedEvent { CurState = newState });//Phát thông báo lần đầu thay đổi state
+            EventBus.Publish(new StateUpdatedEvent { CurState = newState });//Phát đi thông báo về sự kiện đã đăng ký, Các hệ thống đã đăng ký sẽ nhận được thông báo này.
             Debug.Log("Game state changed to: " + newState);
         }
-        public void SaveGame()
-        {
-
-            // Chỉ thực hiện lưu nếu có thay đổi
-            // if (!isDataDirty) return;
-            // Debug.Log("Data was dirty, SAVING GAME...");
-            // PlayerData dataToSave = playerInfo.GetDataToSave();
-            // dataToSave.version = Application.version; // << LƯU PHIÊN BẢN HIỆN TẠI
-            // dataToSave.gold = currentScore;
-
-            // string json = JsonUtility.ToJson(dataToSave, true);
-            // File.WriteAllText(saveFilePath, json);
-            // Debug.Log("Lưu game với version: " + dataToSave.version);
-            // // Sau khi lưu xong, reset cờ
-            // isDataDirty = false;
-        }
-
-        public void LoadDataFromFile()
-        {
-            // if (File.Exists(saveFilePath))
-            // {
-            //     string json = File.ReadAllText(saveFilePath);
-            //     loadedPlayerData = JsonUtility.FromJson<PlayerData>(json);
-
-            //     // --- LOGIC SO SÁNH PHIÊN BẢN ---
-            //     if (loadedPlayerData.version != Application.version)
-            //     {
-            //         // Phiên bản của file save khác với phiên bản của game
-            //         // -> Đây là bản build mới -> Reset dữ liệu
-            //         Debug.Log("Phát hiện phiên bản trò chơi mới (" + Application.version + "). Dữ liệu lưu cũ từ phiên bản " + loadedPlayerData.version + " sẽ được đặt lại.");
-            //         ResetAndCreateNewData();
-            //     }
-            //     else
-            //     {
-            //         // Cùng phiên bản, tải dữ liệu bình thường
-            //         currentScore = loadedPlayerData.gold;
-            //         Debug.Log("Đã tải trò chơi từ phiên bản: " + loadedPlayerData.version);
-            //     }
-            // }
-            // else
-            // {
-            //     // Không có file save, tạo dữ liệu mới
-            //     Debug.Log("Không tìm thấy tệp lưu, đang tạo dữ liệu mới.");
-            //     playerInfo.ApplyLoadedData(new PlayerData());
-            //     ResetAndCreateNewData();
-            // }
-        }
-
-        // Hàm tạo dữ liệu mới và lưu lại ngay lập tức
-        private void ResetAndCreateNewData()
-        {
-            // currentScore = 0;
-            SaveGame(); // Gọi SaveGame để tạo file save mới với phiên bản hiện tại và score = 0
-        }
-        // Hàm đặc biệt của Unity
-        void OnApplicationQuit()
-        {
-            Debug.Log("Application quitting...");
-            SaveGame(); // Gọi hàm save lần cuối
-        }
+    
         public void PlayGame()///1.Sau khi ấn nút play
         {
 
@@ -218,30 +134,6 @@ namespace MrX.BlockBlash
             EventBus.Publish(new EnemySpawnedEvent { });//Phát thông báo lần đầu thay đổi state
             // ActivePlayer();
         }
-        public void ActivePlayer()
-        {
-
-            // if (m_curPlayer)
-            //     Destroy(m_curPlayer.gameObject);
-
-            // var shopItem = ShopController.Ins.items;
-            // if (shopItem == null || shopItem.Length <= 0) return;
-
-            // var newPlayerPb = shopItem[Pref.curPlayerId].playerPrefabs;
-            // if (newPlayerPb)
-            // {
-            //     m_curPlayer = Instantiate(newPlayerPb, new Vector3(-6f, -1.7f, 0f), Quaternion.identity);
-            // }
-        }
-        // public void AddScore(EnemyDiedEvent value)//Test UI
-        // {
-        //     // Debug.Log("DieGM");
-        //     m_score += value.dieScore;
-        //     // Debug.Log(value.dieScore);
-        //     Pref.coins += value.dieScore;
-        //     // Thay vì tự phát event, nó "gửi thông báo" đến EventBus
-        //     EventBus.Publish(new ScoreUpdatedEvent { newScore = Pref.coins });//Phát thông báo kèm điểm khi tiêu diệt một enemy
-        // }
         public void GameOver(PlayerDiedEvent value)//							   
         {
 

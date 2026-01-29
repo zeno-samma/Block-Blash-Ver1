@@ -2,7 +2,9 @@ using UnityEngine;
 
 namespace MrX.BlockBlash
 {
-    public enum GameState//Giá trị mặc định của enum là đầu tiên.
+    //Giá trị mặc định của enum là đầu tiên.
+    // ==========================================
+    public enum GameState
     {
         NONE, //Rỗng
         PREPAIR, //Đang chuẩn bị
@@ -11,15 +13,10 @@ namespace MrX.BlockBlash
         UPGRADEPHASE,//Nâng cấp.
         GAMEOVER  // Thua cuộc
     }
-    // Ví dụ một sự kiện không chứa dữ liệu
-    public struct GameStartedEvent { }
-    // Sự kiện này được phát đi khi Player đã sẵn sàng
-    public struct PlayerSpawnedEvent
-    {
-        // public Transform PlayerTransform; // Mang theo thông tin về Transform của Player
-        // public PlayerHealth HealthComponent;
-        public GameObject playerObject;
-    }
+    //Đăng ký một sự kiện trong game tại đây(Tổng đài sự kiện)//
+    // ===============================================================
+    public struct GameStartedEvent { }// Sự kiện này được phát đi khi Player đã sẵn sàng
+    
     public struct PlayerLeveledUpEvent { }
     public struct PlayerDiedEvent { }
 
@@ -53,9 +50,7 @@ namespace MrX.BlockBlash
     }
     public struct InitialUIDataReadyEvent
     {
-        // public int defHealth;
-        // public int maxHealth;
-        // public int defScore;
+
     }
-    // Test asmdef;
+    // =====================================================================
 }

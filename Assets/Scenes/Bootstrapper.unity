@@ -860,7 +860,6 @@ MonoBehaviour:
   m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
-  m_Version: 2
   m_TaaSettings:
     m_Quality: 3
     m_FrameInfluence: 0.1
@@ -868,6 +867,7 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+  m_Version: 2
 --- !u!1 &1662646242
 GameObject:
   m_ObjectHideFlags: 0
@@ -878,7 +878,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1662646243}
   - component: {fileID: 1662646244}
-  - component: {fileID: 1662646246}
   - component: {fileID: 1662646245}
   m_Layer: 0
   m_Name: _GameManager
@@ -917,8 +916,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae4dc1c6a8c88e2419802fba2b01998a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentScore: 0
-  playerHealth: {fileID: 0}
 --- !u!114 &1662646245
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -954,20 +951,6 @@ MonoBehaviour:
     prefab: {fileID: 8509341962681077187, guid: e3d1ade12083ad5418ded194f09299d7, type: 3}
     initialSize: 30
   poolContainer: {fileID: 15909967}
---- !u!114 &1662646246
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1662646242}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 453dd2b7f9fce3447a9e80a05512f07a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  activeEnemies: []
-  playerTransform: {fileID: 0}
 --- !u!1 &1812323843
 GameObject:
   m_ObjectHideFlags: 0
@@ -1413,6 +1396,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
